@@ -6,50 +6,47 @@
 
 package StockCraft;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
+import org.bukkit.configuration.file.FileConfiguration;
 
 
-public class StockCraftProperties extends Properties{	
-	private static final long serialVersionUID = -922210605847273904L;
-	private String fileName = "plugins/StockCraft/StockCraft.cfg";
-	
-	public void load(){
-		File file = new File(fileName);
-		if(file.exists()) {
-			try  {
-				load(new FileInputStream(fileName));
-			} catch (IOException ex) {
-				
-			}
-		}
-	}
-	public String getString(String key, String value){
-		if(containsKey(key)){
-			return getProperty(key);
-		}
-		put(key, value);
-		return value;
-	}
-	public Boolean getBoolean(String key, boolean value) {
-		if (containsKey(key)) {
-			String boolString = getProperty(key);
-			return (boolString.length() > 0)
-					&& (boolString.toLowerCase().charAt(0) == 't');
-		}
-		put(key, value ? "true" : "false");
-		return value;
-	}
-	public double getDouble(String key, double value) {
-		if (containsKey(key)) {
-			return Double.parseDouble(getProperty(key));
-		}
+public class StockCraftProperties{	
 
-		put(key, String.valueOf(value));
-		return value;
+	public static Boolean perm;
+	public static Boolean shorten;
+	public static Boolean iconomy5;
+	public static Double fee;
+	public static Double minimumfee;
+
+	private StockCraft plugin;
+
+	StockCraftProperties(StockCraft instance){
+		plugin = instance;		
 	}
-	
-	
+
+	public void load(){		
+		final FileConfiguration properties = plugin.getConfig();
+
+		properties.options().header("StockCraft");
+
+		properties.addDefault("detailed permissions",false);
+		properties.addDefault("shorten",false);
+		properties.addDefault("Vault",true);
+		properties.addDefault("fee",0);
+		properties.addDefault("minimumfee", 0);
+
+		perm = properties.getBoolean("detailedpermissions",false);
+		shorten = properties.getBoolean("shorten",false);
+		iconomy5 = properties.getBoolean("Vault",true);
+		fee = properties.getDouble("fee",0);
+		minimumfee = properties.getDouble("minimumfee", 0);
+
+		properties.options().copyDefaults(true);
+		plugin.saveConfig();
+	}	
+
+
+
+
+
+
 }

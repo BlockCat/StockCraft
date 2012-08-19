@@ -9,22 +9,22 @@ package StockCraft;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.milkbowl.vault.permission.Permission;
+
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import com.nijikokun.bukkit.Permissions.Permissions;
-
 public class StockCraftPermissions {
-	private static Permissions permissionsPlugin;
+	private static Permission permissionsPlugin;
     public static boolean permissionsEnabled = false;
     private static volatile StockCraftPermissions instance;
     
     public static void initialize(Server server) {
-        Plugin test = server.getPluginManager().getPlugin("Permissions");
+        Plugin test = server.getPluginManager().getPlugin(StockCraft.permissions.getName());
         if (test != null) {
             Logger log = Logger.getLogger("Minecraft");
-            permissionsPlugin = ((Permissions) test);
+            permissionsPlugin = ((Permission) test);
             permissionsEnabled = true;
             log.log(Level.INFO, "[StockCraft] Permissions enabled.");
         } else {
@@ -33,9 +33,9 @@ public class StockCraftPermissions {
         }
     }
     private boolean permission(Player player, String string) {
-        return Permissions.Security.permission(player, string);  
+        return StockCraft.permissions.playerHas(player, string);
     }
-    public static Permissions getPermissionsPlugin() {
+    public static Permission getPermissionsPlugin() {
 		return permissionsPlugin;
 	}
     public static StockCraftPermissions getInstance() {

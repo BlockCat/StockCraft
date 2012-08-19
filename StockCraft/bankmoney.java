@@ -9,64 +9,41 @@ package StockCraft;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import com.nijiko.coelho.iConomy.iConomy;
-import com.iConomy.system.Holdings;
-
 public class bankmoney
 {
-	public static double checkmoney(Player player) {
-		if (StockCraftPropertiesVar.iconomy5 == true) {
-			Holdings balance = com.iConomy.iConomy.getAccount(player.getName()).getHoldings();
-			return balance.balance(); 
+	public static double checkmoney(Player player){
+		if(StockCraftProperties.iconomy5 == true){
+			if(StockCraft.money != null)
+				return StockCraft.money.getBalance(player.getName());
 		}
-		else {
-			return iConomy.getBank().getAccount(player.getName()).getBalance();
-		}
-		
+
+		return 0;
 	}
+
+		
 	public static void addmoney(Player player,double amount) {
-		if (StockCraftPropertiesVar.iconomy5 == true) {
-			Holdings balance = com.iConomy.iConomy.getAccount(player.getName()).getHoldings();
-			balance.add(amount);
-		}
-		else {
-			iConomy.getBank().getAccount(player.getName()).add(amount);			
+		if (StockCraftProperties.iconomy5 == true) {
+			StockCraft.money.depositPlayer(player.getName(), amount);
 		}
 		
 	}
 	public static void subtractmoney(Player player,double amount) {
 		double tradingfee = 0;
-		if(StockCraftPropertiesVar.fee > 0 || StockCraftPropertiesVar.minimumfee > 0)
+		if(StockCraftProperties.fee > 0 || StockCraftProperties.minimumfee > 0)
 		{
-			tradingfee = (amount * StockCraftPropertiesVar.fee / 100);
-			if(tradingfee < StockCraftPropertiesVar.minimumfee)
+			tradingfee = (amount * StockCraftProperties.fee / 100);
+			if(tradingfee < StockCraftProperties.minimumfee)
 			{
-				tradingfee = StockCraftPropertiesVar.minimumfee;
+				tradingfee = StockCraftProperties.minimumfee;
 			}
 			tradingfee = tradingfee *100;
 			tradingfee = Math.round(tradingfee);
 			tradingfee = tradingfee /100;
 			
-			player.sendMessage(ChatColor.RED+"You have paid "+tradingfee+" "+getcurrency()+ " trading fee!");
+			player.sendMessage(ChatColor.RED+"You have paid "+tradingfee+" trading fee!");
 		}
-		if (StockCraftPropertiesVar.iconomy5 == true) {
-			Holdings balance = com.iConomy.iConomy.getAccount(player.getName()).getHoldings();
-			balance.subtract(amount + tradingfee);
+		if (StockCraftProperties.iconomy5 == true) {
+			StockCraft.money.withdrawPlayer(player.getName(), amount + tradingfee);
 		}
-		else {
-			iConomy.getBank().getAccount(player.getName()).subtract(amount + tradingfee);			
-		}
-		
-	}
-	public static String getcurrency() {
-		if (StockCraftPropertiesVar.iconomy5 == true) {
-			String formatted = com.iConomy.iConomy.format(0);
-			String currency = formatted.substring(5, formatted.length());
-			return currency;
-		}
-		else {
-			return iConomy.getBank().getCurrency();			
-		}
-		
 	}
 }

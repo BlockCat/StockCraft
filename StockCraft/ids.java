@@ -18,7 +18,7 @@ public class ids
  {
 	public static void idscommand(Player player,String [] split) throws SQLException
 	{
-		if(StockCraftPropertiesVar.perm == false ||  StockCraftPermissions.getInstance().ids(player))
+		if(StockCraftProperties.perm == false ||  StockCraftPermissions.getInstance().ids(player))
 		{
 			Statement statement = (Statement) StockCraftDatabase.conn.createStatement();
 			if(statement != null)

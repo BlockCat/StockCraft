@@ -9,17 +9,20 @@ package StockCraft;
 import java.sql.SQLException;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerListener;
 
-public class StockCraftPlayerListener extends PlayerListener {
+public class StockCraftPlayerListener implements Listener {
     private final StockCraft plugin;
     
     public StockCraftPlayerListener(StockCraft instance) {
         plugin = instance;
     }
 
-    
+
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event){
     	Player player = event.getPlayer();
     	String[] split = event.getMessage().split(" ");

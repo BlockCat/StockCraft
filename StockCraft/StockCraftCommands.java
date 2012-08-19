@@ -12,26 +12,28 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+
 import com.mysql.jdbc.Statement;
 
 public class StockCraftCommands {
-	
+
 	Logger log = Logger.getLogger("Minecraft");	
 	private static StockCraft plugin;
 	public StockCraftCommands(StockCraft instance) {
-    	plugin = instance;
-    }
+		plugin = instance;
+	}
 	private static volatile StockCraftCommands instance;
 	public static StockCraftCommands  getInstance() {
-    	if (instance == null) {
-    		instance = new StockCraftCommands(plugin);
-    	}
-    	return instance;
-    }
-	
+		if (instance == null) {
+			instance = new StockCraftCommands(plugin);
+		}
+		return instance;
+	}
+
 	public static String idchange(String longid) throws SQLException{
 		String shortid = null;
 		Statement statement = (Statement) StockCraftDatabase.conn.createStatement();
@@ -46,91 +48,91 @@ public class StockCraftCommands {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			
+
 		}
-		
+
 		return shortid;
 	}
 	public String[] loadidlist(Player player,String loc)
 	{
 		String[] texti = null;
 		try{
-    		FileReader readfile = new FileReader(loc);
-            BufferedReader rf = new BufferedReader(readfile);
-            StringBuffer stringBuffer = new StringBuffer();
-            String text = "";    
-            while((text = rf.readLine()) != null){
-            	stringBuffer.append(text);            	
-            }
-            text = String.valueOf(stringBuffer);
-            texti = text.split(":"); 
-               
-            rf.close();
-    	}
-    	catch(Exception e){
-        	log.log(Level.SEVERE, "There is no file "+loc+"!", e);        	    
-        	}
-    	return texti;
-	}
-	
-	public void writetxt(String loc,PlayerChatEvent event)
-    {
-    	Player player = event.getPlayer();
-    	try{
-    		FileReader readfile = new FileReader(loc);
-            BufferedReader rf = new BufferedReader(readfile);
-            String text = "";
-            String color = "WHITE";
+			FileReader readfile = new FileReader(loc);
+			BufferedReader rf = new BufferedReader(readfile);
+			StringBuffer stringBuffer = new StringBuffer();
+			String text = "";    
+			while((text = rf.readLine()) != null){
+				stringBuffer.append(text);            	
+			}
+			text = String.valueOf(stringBuffer);
+			texti = text.split(":"); 
 
-            while((text = rf.readLine()) != null)
-            {
-            	String[] texti = text.split(":");
-            	for(int i = 0;i<texti.length;i++)
-                {
-            		if(texti[i].equals("WHITE")){color = "WHITE";}
-            		else if(texti[i].equals("AQUA")){color = "AQUA";}
-            		else if(texti[i].equals("BLACK")){color = "BLACK";}
-            		else if(texti[i].equals("BLUE")){color = "BLUE";}
-            		else if(texti[i].equals("DARK_AQUA")){color = "DARK_AQUA";}
-            		else if(texti[i].equals("DARK_BLUE")){color = "DARK_BLUE";}
-            		else if(texti[i].equals("DARK_GRAY")){color = "DARK_GRAY";}
-            		else if(texti[i].equals("DARK_GREEN")){color = "DARK_GREEN";}
-            		else if(texti[i].equals("DARK_PURPLE")){color = "DARK_PURPLE";}
-            		else if(texti[i].equals("DARK_RED")){color = "DARK_RED";}
-            		else if(texti[i].equals("GOLD")){color = "GOLD";}
-            		else if(texti[i].equals("GRAY")){color = "GRAY";}
-            		else if(texti[i].equals("GREEN")){color = "GREEN";}
-            		else if(texti[i].equals("LIGHT_PURPLE")){color = "LIGHT_PURPLE";}
-            		else if(texti[i].equals("RED")){color = "RED";}
-            		else if(texti[i].equals("YELLOW")){color = "YELLOW";}                		
-            		
-            		else{
-            			if(color.equals("WHITE")){player.sendMessage(ChatColor.WHITE+texti[i]);}
-            			if(color.equals("AQUA")){player.sendMessage(ChatColor.AQUA+texti[i]);}
-            			if(color.equals("BLACK")){player.sendMessage(ChatColor.BLACK+texti[i]);}
-            			if(color.equals("BLUE")){player.sendMessage(ChatColor.BLUE+texti[i]);}
-            			if(color.equals("DARK_AQUA")){player.sendMessage(ChatColor.DARK_AQUA+texti[i]);}
-            			if(color.equals("DARK_BLUE")){player.sendMessage(ChatColor.DARK_BLUE+texti[i]);}
-            			if(color.equals("DARK_GRAY")){player.sendMessage(ChatColor.DARK_GRAY+texti[i]);}
-            			if(color.equals("DARK_GREEN")){player.sendMessage(ChatColor.DARK_GREEN+texti[i]);}
-            			if(color.equals("DARK_PURPLE")){player.sendMessage(ChatColor.DARK_PURPLE+texti[i]);}
-            			if(color.equals("DARK_RED")){player.sendMessage(ChatColor.DARK_RED+texti[i]);}
-            			if(color.equals("GOLD")){player.sendMessage(ChatColor.GOLD+texti[i]);}
-            			if(color.equals("GRAY")){player.sendMessage(ChatColor.GRAY+texti[i]);}
-            			if(color.equals("GREEN")){player.sendMessage(ChatColor.GREEN+texti[i]);}
-            			if(color.equals("LIGHT_PURPLE")){player.sendMessage(ChatColor.LIGHT_PURPLE+texti[i]);}
-            			if(color.equals("RED")){player.sendMessage(ChatColor.RED+texti[i]);}
-            			if(color.equals("YELLOW")){player.sendMessage(ChatColor.YELLOW+texti[i]);}
-            		}
-            		
-            	}
-            }
-            rf.close();
-    	}
-    	catch(Exception e){
-        	log.log(Level.SEVERE, "There is no file "+loc+"!", e);        	    
-        	}
-        }
+			rf.close();
+		}
+		catch(Exception e){
+			log.log(Level.SEVERE, "There is no file "+loc+"!", e);        	    
+		}
+		return texti;
+	}
+
+	public void writetxt(String loc,PlayerCommandPreprocessEvent event)
+	{
+		Player player = event.getPlayer();
+		try{
+			FileReader readfile = new FileReader(loc);
+			BufferedReader rf = new BufferedReader(readfile);
+			String text = "";
+			String color = "WHITE";
+
+			while((text = rf.readLine()) != null)
+			{
+				String[] texti = text.split(":");
+				for(int i = 0;i<texti.length;i++)
+				{
+					if(texti[i].equals("WHITE")){color = "WHITE";}
+					else if(texti[i].equals("AQUA")){color = "AQUA";}
+					else if(texti[i].equals("BLACK")){color = "BLACK";}
+					else if(texti[i].equals("BLUE")){color = "BLUE";}
+					else if(texti[i].equals("DARK_AQUA")){color = "DARK_AQUA";}
+					else if(texti[i].equals("DARK_BLUE")){color = "DARK_BLUE";}
+					else if(texti[i].equals("DARK_GRAY")){color = "DARK_GRAY";}
+					else if(texti[i].equals("DARK_GREEN")){color = "DARK_GREEN";}
+					else if(texti[i].equals("DARK_PURPLE")){color = "DARK_PURPLE";}
+					else if(texti[i].equals("DARK_RED")){color = "DARK_RED";}
+					else if(texti[i].equals("GOLD")){color = "GOLD";}
+					else if(texti[i].equals("GRAY")){color = "GRAY";}
+					else if(texti[i].equals("GREEN")){color = "GREEN";}
+					else if(texti[i].equals("LIGHT_PURPLE")){color = "LIGHT_PURPLE";}
+					else if(texti[i].equals("RED")){color = "RED";}
+					else if(texti[i].equals("YELLOW")){color = "YELLOW";}                		
+
+					else{
+						if(color.equals("WHITE")){player.sendMessage(ChatColor.WHITE+texti[i]);}
+						if(color.equals("AQUA")){player.sendMessage(ChatColor.AQUA+texti[i]);}
+						if(color.equals("BLACK")){player.sendMessage(ChatColor.BLACK+texti[i]);}
+						if(color.equals("BLUE")){player.sendMessage(ChatColor.BLUE+texti[i]);}
+						if(color.equals("DARK_AQUA")){player.sendMessage(ChatColor.DARK_AQUA+texti[i]);}
+						if(color.equals("DARK_BLUE")){player.sendMessage(ChatColor.DARK_BLUE+texti[i]);}
+						if(color.equals("DARK_GRAY")){player.sendMessage(ChatColor.DARK_GRAY+texti[i]);}
+						if(color.equals("DARK_GREEN")){player.sendMessage(ChatColor.DARK_GREEN+texti[i]);}
+						if(color.equals("DARK_PURPLE")){player.sendMessage(ChatColor.DARK_PURPLE+texti[i]);}
+						if(color.equals("DARK_RED")){player.sendMessage(ChatColor.DARK_RED+texti[i]);}
+						if(color.equals("GOLD")){player.sendMessage(ChatColor.GOLD+texti[i]);}
+						if(color.equals("GRAY")){player.sendMessage(ChatColor.GRAY+texti[i]);}
+						if(color.equals("GREEN")){player.sendMessage(ChatColor.GREEN+texti[i]);}
+						if(color.equals("LIGHT_PURPLE")){player.sendMessage(ChatColor.LIGHT_PURPLE+texti[i]);}
+						if(color.equals("RED")){player.sendMessage(ChatColor.RED+texti[i]);}
+						if(color.equals("YELLOW")){player.sendMessage(ChatColor.YELLOW+texti[i]);}
+					}
+
+				}
+			}
+			rf.close();
+		}
+		catch(Exception e){
+			log.log(Level.SEVERE, "There is no file "+loc+"!", e);        	    
+		}
+	}
 	public static String idback(String shortid) throws SQLException{
 		String longid = null;
 		Statement statement = (Statement) StockCraftDatabase.conn.createStatement();
@@ -145,19 +147,16 @@ public class StockCraftCommands {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			
+
 		}
-		
+
 		return longid;
 	}
-	
-	
-	
-	public void infosystem(String[] split, Player player, PlayerChatEvent event) throws SQLException{
-		
-		if(split[0].equalsIgnoreCase("/course")) {
+	public void infosystem(String[] split, Player player, PlayerCommandPreprocessEvent event) throws SQLException{
+
+		if(split[0].equalsIgnoreCase("/course") && split.length > 1) {
 			event.setCancelled(true); 
-			if(StockCraftPropertiesVar.perm == false ||  StockCraftPermissions.getInstance().course(player))
+			if(StockCraftProperties.perm == false ||  StockCraftPermissions.getInstance().course(player))
 			{
 				String idname = String.valueOf(split[1]);
 				String id = idchange(idname);
@@ -167,14 +166,17 @@ public class StockCraftCommands {
 				String percent = gtext[3];
 				String days50 = gtext[4];
 				player.sendMessage(ChatColor.DARK_AQUA+"Stock: "+idname+ChatColor.BLUE+" course: "+course+ChatColor.DARK_AQUA+" end of last day: "+lastday+ChatColor.BLUE+" change in percent: "+percent+ChatColor.DARK_AQUA+" 50 days average: "+days50);
+
 			}
 			else {
 				player.sendMessage(ChatColor.RED+"You don't have permission!");
 			}
 		}
+
+
 		if(split[0].equalsIgnoreCase("/stocks")) {
 			event.setCancelled(true); 
-			if(StockCraftPropertiesVar.perm == false ||  StockCraftPermissions.getInstance().stocks(player))
+			if(StockCraftProperties.perm == false ||  StockCraftPermissions.getInstance().stocks(player))
 			{
 				Statement statement = (Statement) StockCraftDatabase.conn.createStatement();
 				if(statement != null)
@@ -207,10 +209,10 @@ public class StockCraftCommands {
 								}
 								shortid = idchange(id);
 								idlist[i] = shortid;
-								
-								
+
+
 							}
-							
+
 							if(bought== false) {
 								player.sendMessage(ChatColor.RED+"You don't have stocks -> buy some first!");
 							}
@@ -233,7 +235,7 @@ public class StockCraftCommands {
 										profit = -profit;
 										avp = (sumpaid/-amountof);
 									}
-									
+
 									if(profit > 0){
 										player.sendMessage(ChatColor.YELLOW+id+ChatColor.LIGHT_PURPLE+" amount: "+amountof+ChatColor.GREEN+" average paid: "+avp+ChatColor.BLUE+" course: "+course+ChatColor.GREEN+" +"+profit);
 									}
@@ -264,12 +266,12 @@ public class StockCraftCommands {
 		if(split[0].equalsIgnoreCase("/ids")) {
 			event.setCancelled(true); 
 			ids.idscommand(player, split);
-				
+
 		}
 		if(split[0].equalsIgnoreCase("/stocksell")) {
 			event.setCancelled(true);
 			stocksell.stocksellcommand(player, split);			
-		
+
 		}
 		if(split[0].equalsIgnoreCase("/stockbuy")) {
 			event.setCancelled(true); 
@@ -288,9 +290,9 @@ public class StockCraftCommands {
 					player.sendMessage(ChatColor.RED+"Example: /addid BMW BMW.DE");
 				}
 			}
-			
+
 		}
-		
+
 		if(split[0].equalsIgnoreCase("/addidlist")) {
 			event.setCancelled(true); 
 			if(StockCraftPermissions.getInstance().addid(player)){		
@@ -299,8 +301,8 @@ public class StockCraftCommands {
 					String[] list = loadidlist(player, loc);
 
 					for(int i = 0;i<list.length;i=i+2) {
-		        		StockCraftDatabase.idadd(player, list[i], list[i+1]);
-		        	}
+						StockCraftDatabase.idadd(player, list[i], list[i+1]);
+					}
 				}				
 				else{
 					player.sendMessage(ChatColor.RED+"/addidlist [name]");
@@ -309,10 +311,10 @@ public class StockCraftCommands {
 					player.sendMessage(ChatColor.RED+"Example: /addidlist mylist");
 				}
 			}
-			
+
 		}
-		
-		
+
+
 		if(split[0].equalsIgnoreCase("/removeid")) {
 			event.setCancelled(true); 
 			if(StockCraftPermissions.getInstance().removeid(player)){		
@@ -343,28 +345,28 @@ public class StockCraftCommands {
 							else{
 								player.sendMessage(ChatColor.RED+longid+"There is no stock "+split[1]+"!");
 							}
-								
+
 						} catch (SQLException e1) {
 							e1.printStackTrace();
 						}
-						
+
 					}
 				}
-				
+
 				else{
 					player.sendMessage(ChatColor.RED+"/removeid [name]");
 					player.sendMessage(ChatColor.RED+"name = The name of the stock you want to remove");
 					player.sendMessage(ChatColor.RED+"Example: /removeid BMW");
 				}
 			}
-			
+
 		}
 		if(split[0].equalsIgnoreCase("/stocktop")){
-    		event.setCancelled(true);
-    		if(StockCraftPropertiesVar.perm == false ||  StockCraftPermissions.getInstance().stocktop(player))
+			event.setCancelled(true);
+			if(StockCraftProperties.perm == false ||  StockCraftPermissions.getInstance().stocktop(player))
 			{
-    			Statement statement = (Statement) StockCraftDatabase.conn.createStatement();
-	    		if(statement != null)
+				Statement statement = (Statement) StockCraftDatabase.conn.createStatement();
+				if(statement != null)
 				{	
 					try {
 						ResultSet resultset = null;
@@ -379,28 +381,28 @@ public class StockCraftCommands {
 							player.sendMessage(ChatColor.LIGHT_PURPLE+""+i+". "+name+" "+profit);
 						}    
 					} catch (SQLException e1) {
-					e1.printStackTrace();
+						e1.printStackTrace();
 					}	
-					
+
 				}
 			}
-    		else{
+			else{
 				player.sendMessage(ChatColor.RED+"You don't have permission!");
 			}
-    		
-    	}
-		
+
+		}
+
 		if(split[0].equalsIgnoreCase("/stockhelp") || split[0].equalsIgnoreCase("/stockshelp") || split[0].equalsIgnoreCase("/stockcraft")){
-    		event.setCancelled(true);
-    		if(StockCraftPropertiesVar.perm == false ||  StockCraftPermissions.getInstance().stockhelp(player))
+			event.setCancelled(true);
+			if(StockCraftProperties.perm == false ||  StockCraftPermissions.getInstance().stockhelp(player))
 			{
-	    		String rulesloc = "plugins/StockCraft/stockhelp.txt";
-	    		writetxt(rulesloc,event);  
+				String rulesloc = "plugins/StockCraft/stockhelp.txt";
+				writetxt(rulesloc,event);  
 			}
-    		else{
+			else{
 				player.sendMessage(ChatColor.RED+"You don't have permission!");
 			}
-    	}
+		}
 
 	}
 }

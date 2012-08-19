@@ -15,10 +15,10 @@ import org.bukkit.entity.Player;
 import com.mysql.jdbc.Statement;
 
 public class stocksell
- {
+{
 	public static void stocksellcommand(Player player,String [] split) throws SQLException
 	{
-		if(StockCraftPropertiesVar.perm == false ||  StockCraftPermissions.getInstance().stocksell(player))
+		if(StockCraftProperties.perm == false ||  StockCraftPermissions.getInstance().stocksell(player))
 		{
 			String amount = "1";
 			String idname = String.valueOf(split[1]);
@@ -31,8 +31,8 @@ public class stocksell
 			float sumget = (iamount * fcourse);
 			float allprofit = 0;
 			float price = (iamount * fcourse);
-			
-			Statement statement = (Statement) StockCraftDatabase.conn.createStatement();
+
+			Statement statement = StockCraftDatabase.inter.getStatement();
 			if(statement != null && id!=null)
 			{
 				ResultSet resultset = null;
@@ -46,10 +46,10 @@ public class stocksell
 						amountof = Integer.valueOf(resultset.getString("amount"));							
 					}
 					if(amountof < 0 && price <= bankmoney.checkmoney(player)){
-						if(StockCraftPropertiesVar.shorten == true) {								
+						if(StockCraftProperties.shorten == true) {								
 							sql = "UPDATE stocks SET amount ="+(amountof - iamount)+", sumpaid ="+(sumpaid + price)+" WHERE name ='"+player.getName()+"' AND stockname ='"+idname+"'";
 							statement.execute(sql);
-							player.sendMessage(ChatColor.GREEN+amount+" "+idname+" stocks sold (shorted) -> "+price+" "+bankmoney.getcurrency());
+							player.sendMessage(ChatColor.GREEN+amount+" "+idname+" stocks sold (shorted) -> "+price);
 							sumget = -sumget;
 							bankmoney.addmoney(player, sumget);
 						}
@@ -58,20 +58,20 @@ public class stocksell
 						}
 					}
 					else if(amountof < 0 && price > bankmoney.checkmoney(player)){
-						player.sendMessage(ChatColor.RED+"Not enough money! You need "+(iamount * fcourse)+" "+bankmoney.getcurrency()+"! You have "+bankmoney.checkmoney(player)+" "+bankmoney.getcurrency()+"!");
+						player.sendMessage(ChatColor.RED+"Not enough money! You need "+(iamount * fcourse)+"! You have "+bankmoney.checkmoney(player)+"!");
 					}
 					else if(amountof == 0){
-						if(StockCraftPropertiesVar.shorten == true ) {
+						if(StockCraftProperties.shorten == true ) {
 							if(price <= bankmoney.checkmoney(player))
 							{
 								sql = "INSERT INTO stocks (name,stockname,sumpaid,amount) VALUES('"+player.getName()+"','"+idname+"',"+price+","+ -iamount+")";
 								statement.execute(sql);
-								player.sendMessage(ChatColor.GREEN+amount+" "+idname+" stocks sold (shorted) -> "+price+" "+bankmoney.getcurrency());
+								player.sendMessage(ChatColor.GREEN+amount+" "+idname+" stocks sold (shorted) -> "+price);
 								sumget = -sumget;
 								bankmoney.addmoney(player, sumget);
 							}
 							else if(amountof == 0 && price > bankmoney.checkmoney(player)){
-								player.sendMessage(ChatColor.RED+"Not enough money! You need "+(iamount * fcourse)+" "+bankmoney.getcurrency()+"! You have "+bankmoney.checkmoney(player)+" "+bankmoney.getcurrency()+"!");
+								player.sendMessage(ChatColor.RED+"Not enough money! You need "+(iamount * fcourse)+"! You have "+bankmoney.checkmoney(player)+"!");
 							}
 						}
 						else{
@@ -94,7 +94,7 @@ public class stocksell
 						}	
 						statement.execute(sql);
 						float profit = sumget -(sumpaid/amountof*iamount);
-						player.sendMessage(ChatColor.GOLD+"You got "+profit+" "+bankmoney.getcurrency()+" profit!");
+						player.sendMessage(ChatColor.GOLD+"You got "+profit+" profit!");
 						sql = "SELECT profit FROM stockstats WHERE name ='"+player.getName()+"'";
 						resultset = statement.executeQuery(sql);
 						while (resultset.next()) {
@@ -114,15 +114,15 @@ public class stocksell
 						}			
 						statement.execute(sql);
 						bankmoney.addmoney(player, sumget);
-						player.sendMessage(ChatColor.GREEN+amount+" "+idname+" stocks sold -> "+sumget+" "+bankmoney.getcurrency());
-						
+						player.sendMessage(ChatColor.GREEN+amount+" "+idname+" stocks sold -> "+sumget);
+
 					}
-					
+
 				}
 				catch(Exception e){
 					e.printStackTrace();					
 				}
-				
+
 			}
 			else{
 				if(id == null){

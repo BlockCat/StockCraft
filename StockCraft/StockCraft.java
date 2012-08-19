@@ -17,11 +17,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+
 import com.mysql.jdbc.Statement;
 
 public class StockCraft extends JavaPlugin {
 	private final HashMap<Player, Boolean> debugees = new HashMap<Player, Boolean>();
-	public static Permission permission;
+	//public PermissionHandler PermissionsHandler = null;
+	
+	public static Permission permissions = null;
 	public static final Logger log = Logger.getLogger("Minecraft");
 	public static Economy money = null;
 
@@ -32,24 +35,27 @@ public class StockCraft extends JavaPlugin {
 		new StockCraftProperties(this).load();
 
 		setupEconomy();
+		setupPermissions();
 		StockCraftDatabase SCD = new StockCraftDatabase(this);
 		SCD.connecting();
-
+		
 		inter = StockCraftDatabase.inter;		
 		Statement statement = inter.getStatement();
 
 		if(statement != null)
 		{
-			if(inter.tableExists("stocks")){
-				inter.addTable("stocks", "name:char(50)" , "stockname:char(50)" , "sumpaid:float" , "amount:int");
-			}
-			if(inter.tableExists("stockstats")){
-				inter.addTable("stockstats", "name:char(50)","profit:float");
-			}
-			if(inter.tableExists("idtable")){
-				inter.addTable("idtable", "longid:char(50)","shortid:char(50)");
-			}
+				if(!inter.tableExists("stocks")){
+					inter.addTable("stocks", "name:char(50)" , "stockname:char(50)" , "sumpaid:float" , "amount:int");
+					
+				}
+				if(!inter.tableExists("stockstats")){
+					inter.addTable("stockstats", "name:char(50)","profit:float");
+				}
+				if(!inter.tableExists("idtable")){
+					inter.addTable("idtable", "longid:char(50)","shortid:char(50)");
+				}
 		}
+
 
 		// Register our events
 
@@ -57,6 +63,7 @@ public class StockCraft extends JavaPlugin {
 
 		// EXAMPLE: Custom code, here we just output some info so we can check all is well
 		PluginDescriptionFile pdfFile = this.getDescription();
+		StockCraftPermissions.initialize(getServer());
 		System.out.println( pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!" );
 	}
 
@@ -79,14 +86,6 @@ public class StockCraft extends JavaPlugin {
 	public void setDebugging(final Player player, final boolean value) {
 		debugees.put(player, value);
 	}
-	private boolean setupPermissions()
-	{
-		RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
-		if (permissionProvider != null) {
-			permission = permissionProvider.getProvider();
-		}
-		return (permission != null);
-	}
 
 	private Boolean setupEconomy()
 	{
@@ -96,4 +95,12 @@ public class StockCraft extends JavaPlugin {
 		}
 		return (money != null);
 	}
+	private boolean setupPermissions()
+    {
+        RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
+        if (permissionProvider != null) {
+            permissions = permissionProvider.getProvider();
+        }
+        return (permissions != null);
+    }
 }
