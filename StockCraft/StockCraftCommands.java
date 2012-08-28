@@ -270,12 +270,25 @@ public class StockCraftCommands {
 		}
 		if(split[0].equalsIgnoreCase("/stocksell")) {
 			event.setCancelled(true);
-			stocksell.stocksellcommand(player, split);			
+			if (split.length == 2) {
+				player.sendMessage(ChatColor.RED + "How many do you want to sell?");
+			} else if (split.length >= 3) {				
+				stocksell.stocksellcommand(player, split);
+			} else {
+				player.sendMessage(ChatColor.RED + "What do you want to sell?");
+			}
+
 
 		}
 		if(split[0].equalsIgnoreCase("/stockbuy")) {
 			event.setCancelled(true); 
-			stockbuy.stockbuycommand(player, split);					
+			if (split.length == 2) {
+				player.sendMessage(ChatColor.RED + "How many do you want to buy?");
+			} else if (split.length >=3) {
+				stockbuy.stockbuycommand(player, split);
+			} else {
+				player.sendMessage(ChatColor.RED + "What do you want to buy?");
+			}
 		}
 		if(split[0].equalsIgnoreCase("/addid")) {
 			event.setCancelled(true); 

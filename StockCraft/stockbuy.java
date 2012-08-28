@@ -26,7 +26,9 @@ public class stockbuy
 			String id = StockCraftCommands.idchange(idname);
 			String[] gtext = StockCraftDatabase.getcourse(id);
 			String course = gtext[1];
-			if(split.length > 2){amount = split[2];}
+			if(split.length > 2)				
+				amount = split[2];
+			
 			float fcourse = Float.valueOf(course);
 			int iamount = Integer.valueOf(amount);
 			float sumget = (iamount * fcourse);
@@ -118,7 +120,7 @@ public class stockbuy
 
 					}
 					catch(Exception e){
-						e.printStackTrace();	
+						//e.printStackTrace();	
 					}
 				}
 			}

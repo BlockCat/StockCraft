@@ -16,7 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 public class StockCraftPermissions {
-	private static Permission permissionsPlugin;
     public static boolean permissionsEnabled = false;
     private static volatile StockCraftPermissions instance;
     
@@ -24,7 +23,6 @@ public class StockCraftPermissions {
         Plugin test = server.getPluginManager().getPlugin(StockCraft.permissions.getName());
         if (test != null) {
             Logger log = Logger.getLogger("Minecraft");
-            permissionsPlugin = ((Permission) test);
             permissionsEnabled = true;
             log.log(Level.INFO, "[StockCraft] Permissions enabled.");
         } else {
@@ -35,9 +33,6 @@ public class StockCraftPermissions {
     private boolean permission(Player player, String string) {
         return StockCraft.permissions.playerHas(player, string);
     }
-    public static Permission getPermissionsPlugin() {
-		return permissionsPlugin;
-	}
     public static StockCraftPermissions getInstance() {
     	if (instance == null) {
     	instance = new StockCraftPermissions();
