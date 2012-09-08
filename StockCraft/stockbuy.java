@@ -91,7 +91,7 @@ public class stockbuy
 										sql = "INSERT INTO stockstats (name,profit) VALUES ('"+player.getName()+"',"+profit+")";
 									}			
 									statement.execute(sql);
-									bankmoney.addmoney(player, sumget);
+									//bankmoney.addmoney(player, sumget);
 									bankmoney.addmoney(player, profit * 2);
 									player.sendMessage(ChatColor.GREEN+amount+" "+idname+" stocks bought (shorted) -> "+sumget);
 								}

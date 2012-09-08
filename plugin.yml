@@ -1,3 +1,5 @@
 name: StockCraft
 main: StockCraft.StockCraft
-version: 0.3
+version: 0.4
+database: true
+depend: [BukkitSQL]
