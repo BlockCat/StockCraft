@@ -18,24 +18,30 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import StockCraft.Permissions.PermissionCore;
+
 import com.mysql.jdbc.Statement;
 
 public class StockCraft extends JavaPlugin {
 	private final HashMap<Player, Boolean> debugees = new HashMap<Player, Boolean>();
 	//public PermissionHandler PermissionsHandler = null;
 	
-	public static Permission permissions = null;
+	
 	public static final Logger log = Logger.getLogger("Minecraft");
 	public static Economy money = null;
+	public PermissionCore pc;
 
 	private BSQLinterface inter;
 
 	public void onEnable() {
 
 		new StockCraftProperties(this).load();
-
+		
+		pc = new PermissionCore(this);
+		pc.load();
+		
 		setupEconomy();
-		setupPermissions();
+		
 		StockCraftDatabase SCD = new StockCraftDatabase(this);
 		SCD.connecting();
 		
@@ -63,18 +69,10 @@ public class StockCraft extends JavaPlugin {
 
 		// EXAMPLE: Custom code, here we just output some info so we can check all is well
 		PluginDescriptionFile pdfFile = this.getDescription();
-		StockCraftPermissions.initialize(getServer());
+		StockCraftPermissions.initialize(getServer(), pc);
 		System.out.println( pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!" );
 	}
 
-	public void onDisable() {
-		// TODO: Place any custom disable code here
-
-		// NOTE: All registered events are automatically unregistered when a plugin is disabled
-
-		// EXAMPLE: Custom code, here we just output some info so we can check all is well
-		//System.out.println("Goodbye world!");
-	}
 	public boolean isDebugging(final Player player) {
 		if (debugees.containsKey(player)) {
 			return debugees.get(player);
@@ -95,12 +93,4 @@ public class StockCraft extends JavaPlugin {
 		}
 		return (money != null);
 	}
-	private boolean setupPermissions()
-    {
-        RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
-        if (permissionProvider != null) {
-            permissions = permissionProvider.getProvider();
-        }
-        return (permissions != null);
-    }
 }
