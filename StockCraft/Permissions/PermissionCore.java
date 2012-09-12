@@ -12,20 +12,20 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import StockCraft.Permissions.handler.BpermissionsHandler;
+import StockCraft.Permissions.handler.GroupManagerHandler;
 import StockCraft.Permissions.handler.PermissionsExHandler;
 
 public class PermissionCore {
 
-	private JavaPlugin plugin;
 	private String[] PSystems = {"PermissionsEx","bPermissions","GroupManager"};
 	private List<String> PermissionSystems = Arrays.asList(PSystems);
 	private List<PermissionHandler> active = new ArrayList<PermissionHandler>();
 	private List<String> activeNames = new ArrayList<String>();
 
-	private Class<? extends PermissionHandler>[] handlers = new Class[] {PermissionsExHandler.class, BpermissionsHandler.class}; 
+	@SuppressWarnings("unchecked")
+	private Class<? extends PermissionHandler>[] handlers = new Class[] {PermissionsExHandler.class, BpermissionsHandler.class, GroupManagerHandler.class}; 
 
 	public PermissionCore (JavaPlugin plugin) {
-		this.plugin = plugin;
 		plugin.getServer().getPluginManager().registerEvents(new Listener() {
 
 			@EventHandler
