@@ -1,10 +1,11 @@
-package StockCraft.Permissions;
+package StockCraft.Permissions.handler;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import StockCraft.Permissions.PermissionHandler;
+
 import de.bananaco.bpermissions.api.ApiLayer;
-import de.bananaco.bpermissions.api.util.Calculable;
 import de.bananaco.bpermissions.api.util.CalculableType;
 
 public class BpermissionsHandler extends PermissionHandler {

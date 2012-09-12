@@ -10,14 +10,12 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import me.BlockCat.bukkitSQL.BSQLinterface;
-import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import StockCraft.Economy.EconomyCore;
 import StockCraft.Permissions.PermissionCore;
 
 import com.mysql.jdbc.Statement;
@@ -28,8 +26,8 @@ public class StockCraft extends JavaPlugin {
 	
 	
 	public static final Logger log = Logger.getLogger("Minecraft");
-	public static Economy money = null;
 	public PermissionCore pc;
+	public static EconomyCore ec;
 
 	private BSQLinterface inter;
 
@@ -40,7 +38,8 @@ public class StockCraft extends JavaPlugin {
 		pc = new PermissionCore(this);
 		pc.load();
 		
-		setupEconomy();
+		ec = new EconomyCore(this);
+		ec.load();
 		
 		StockCraftDatabase SCD = new StockCraftDatabase(this);
 		SCD.connecting();
@@ -85,12 +84,4 @@ public class StockCraft extends JavaPlugin {
 		debugees.put(player, value);
 	}
 
-	private Boolean setupEconomy()
-	{
-		RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
-		if (economyProvider != null) {
-			money = economyProvider.getProvider();
-		}
-		return (money != null);
-	}
 }

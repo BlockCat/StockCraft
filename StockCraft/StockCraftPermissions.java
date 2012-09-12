@@ -9,8 +9,6 @@ package StockCraft;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.milkbowl.vault.permission.Permission;
-
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -24,7 +22,6 @@ public class StockCraftPermissions {
 
 	public static void initialize(Server server, PermissionCore sc) {
 		plugin = sc;
-		System.out.println(sc.getHandler().getName());
 		Plugin test = server.getPluginManager().getPlugin(sc.getHandler().getName());
 
 		if (test != null) {
@@ -42,10 +39,8 @@ public class StockCraftPermissions {
 			return true;
 		}    	
 		boolean allowed = plugin.getHandler().hasPermissions(player, string);
-		System.out.println(player.getName() + allowed);
-
+		System.out.println(player.getName() + " " + allowed);
 		return allowed;
-		//return StockCraft.permissions.playerHas(player, string);
 	}
 	public static StockCraftPermissions getInstance() {
 		if (instance == null) {

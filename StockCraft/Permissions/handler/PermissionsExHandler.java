@@ -1,7 +1,8 @@
-package StockCraft.Permissions;
+package StockCraft.Permissions.handler;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+
+import StockCraft.Permissions.PermissionHandler;
 
 import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;

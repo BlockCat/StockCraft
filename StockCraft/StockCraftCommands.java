@@ -281,6 +281,7 @@ public class StockCraftCommands {
 
 		}
 		if(split[0].equalsIgnoreCase("/stockbuy")) {
+			System.out.println(StockCraft.ec.getHandler().getBalance(player));
 			event.setCancelled(true); 
 			if (split.length == 2) {
 				player.sendMessage(ChatColor.RED + "How many do you want to buy?");

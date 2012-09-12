@@ -13,8 +13,8 @@ public class bankmoney
 {
 	public static double checkmoney(Player player){
 		if(StockCraftProperties.iconomy5 == true){
-			if(StockCraft.money != null)
-				return StockCraft.money.getBalance(player.getName());
+			if(StockCraft.ec != null)
+				return StockCraft.ec.getHandler().getBalance(player);
 		}
 
 		return 0;
@@ -23,7 +23,7 @@ public class bankmoney
 		
 	public static void addmoney(Player player,double amount) {
 		if (StockCraftProperties.iconomy5 == true) {
-			StockCraft.money.depositPlayer(player.getName(), amount);
+			StockCraft.ec.getHandler().add(player, amount);
 		}
 		
 	}
@@ -43,7 +43,7 @@ public class bankmoney
 			player.sendMessage(ChatColor.RED+"You have paid "+tradingfee+" trading fee!");
 		}
 		if (StockCraftProperties.iconomy5 == true) {
-			StockCraft.money.withdrawPlayer(player.getName(), amount + tradingfee);
+			StockCraft.ec.getHandler().subtract(player, amount+tradingfee);
 		}
 	}
 }
