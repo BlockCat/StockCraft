@@ -11,6 +11,7 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import StockCraft.Economy.handler.BOSEconomy;
 import StockCraft.Economy.handler.CraftConomyHandler;
 import StockCraft.Economy.handler.EconXPHandler;
 import StockCraft.Economy.handler.iConomyHandler;
@@ -18,12 +19,12 @@ import StockCraft.Economy.handler.iConomyHandler;
 public class EconomyCore {
 
 	private JavaPlugin plugin;
-	private String[] PSystems = {"iConomy","Craftconomy3", "EconXP"};
+	private String[] PSystems = {"iConomy","Craftconomy3", "EconXP", "BOSEconomy"};
 	private List<String> PermissionSystems = Arrays.asList(PSystems);
 	private List<EconomyHandler> active = new ArrayList<EconomyHandler>();
 	private List<String> activeNames = new ArrayList<String>();
 
-	private Class<? extends EconomyHandler>[] handlers = new Class[] {iConomyHandler.class, CraftConomyHandler.class, EconXPHandler.class}; 
+	private Class<? extends EconomyHandler>[] handlers = new Class[] {iConomyHandler.class, CraftConomyHandler.class, EconXPHandler.class, BOSEconomy.class}; 
 
 	public EconomyCore (JavaPlugin plugin) {
 		this.plugin = plugin;
