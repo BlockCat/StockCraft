@@ -47,7 +47,7 @@ public class BOSEconomyHandler extends EconomyHandler{
 			        economy = null;
 			    } else {
 			        economy = (BOSEconomyHandler)temp;
-			        System.out.println("[StockCraft hooked into: " + getName());
+			        System.out.println("[StockCraft] hooked into: " + getName());
 			    }
 		}
 		

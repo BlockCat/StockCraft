@@ -2,10 +2,9 @@ package StockCraft.Permissions.handler;
 
 import org.bukkit.entity.Player;
 
-import StockCraft.Permissions.PermissionHandler;
-
 import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
+import StockCraft.Permissions.PermissionHandler;
 
 public class PermissionsExHandler extends PermissionHandler{
 	

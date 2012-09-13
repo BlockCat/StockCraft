@@ -61,7 +61,7 @@ public class MineConomyHandler extends EconomyHandler {
 	            Plugin econ = Bukkit.getServer().getPluginManager().getPlugin("MineConomy");
 	            if (econ != null && econ.isEnabled()) {
 	                this.econ = (MineConomy) econ;
-	                System.out.println("[StockCraft hooked into: " + getName());
+	                System.out.println("[StockCraft] hooked into: " + getName());
 	            }
 	        }
 		}

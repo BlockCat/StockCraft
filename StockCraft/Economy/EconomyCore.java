@@ -14,18 +14,20 @@ import org.bukkit.plugin.java.JavaPlugin;
 import StockCraft.Economy.handler.BOSEconomyHandler;
 import StockCraft.Economy.handler.CraftConomyHandler;
 import StockCraft.Economy.handler.EconXPHandler;
+import StockCraft.Economy.handler.EssentialsHandler;
 import StockCraft.Economy.handler.MineConomyHandler;
+import StockCraft.Economy.handler.MultiCurrencyHandler;
 import StockCraft.Economy.handler.iConomyHandler;
 
 public class EconomyCore {
 
 	private JavaPlugin plugin;
-	private String[] PSystems = {"iConomy","Craftconomy3", "EconXP", "BOSEconomy","MineConomy"};
+	private String[] PSystems = {"iConomy","Craftconomy3", "EconXP", "BOSEconomy","MineConomy","MultiCurrency","Essentials"};
 	private List<String> PermissionSystems = Arrays.asList(PSystems);
 	private List<EconomyHandler> active = new ArrayList<EconomyHandler>();
 	private List<String> activeNames = new ArrayList<String>();
 
-	private Class<? extends EconomyHandler>[] handlers = new Class[] {iConomyHandler.class, CraftConomyHandler.class, EconXPHandler.class, BOSEconomyHandler.class,MineConomyHandler.class}; 
+	private Class<? extends EconomyHandler>[] handlers = new Class[] {iConomyHandler.class, CraftConomyHandler.class, EconXPHandler.class, BOSEconomyHandler.class,MineConomyHandler.class, MultiCurrencyHandler.class, EssentialsHandler.class}; 
 
 	public EconomyCore (JavaPlugin plugin) {
 		this.plugin = plugin;
