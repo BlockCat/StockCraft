@@ -6,10 +6,10 @@ import org.bukkit.plugin.Plugin;
 
 import StockCraft.Economy.EconomyHandler;
 
-public class BOSEconomy extends EconomyHandler{
+public class BOSEconomyHandler extends EconomyHandler{
 
 	private boolean enabled;
-	private BOSEconomy economy = null;
+	private BOSEconomyHandler economy = null;
 
 	@Override
 	public boolean hasMoney(Player player, double money) {
@@ -43,10 +43,12 @@ public class BOSEconomy extends EconomyHandler{
 		if(enabled) {
 			 Plugin temp = Bukkit.getServer().getPluginManager().getPlugin("BOSEconomy");
 			    
-			    if(temp == null)
+			    if(temp == null) {
 			        economy = null;
-			    else
-			        economy = (BOSEconomy)temp;
+			    } else {
+			        economy = (BOSEconomyHandler)temp;
+			        System.out.println("[StockCraft hooked into: " + getName());
+			    }
 		}
 		
 	}
