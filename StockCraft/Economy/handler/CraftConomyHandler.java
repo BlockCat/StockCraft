@@ -18,7 +18,8 @@ public class CraftConomyHandler extends EconomyHandler{
 
 	@Override
 	public boolean hasMoney(Player player, double money) {
-		return common.getAccountManager().getAccount(player.getName()).getBalance(Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName()) > money;
+		Common.getInstance();
+		return common.getAccountManager().getAccount(player.getName()).getBalance(player.getWorld().getName(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName()) > money;
 	}
 
 	@Override

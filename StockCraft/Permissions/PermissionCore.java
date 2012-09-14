@@ -43,15 +43,14 @@ public class PermissionCore {
 			String name = plugin.getName();
 			if (PermissionSystems.contains(name)) {
 				int i = PermissionSystems.indexOf(name);
-				//System.out.println(handlers[i].getName());
 				try {
 					if (!activeNames.contains(handlers[i].newInstance())) {
-						handlers[i].newInstance().setEnabled(true);
-						active.add(handlers[i].newInstance());
-						activeNames.add(handlers[i].getName());
+						PermissionHandler h1 = handlers[i].newInstance();
+						h1.setEnabled(true);
+						active.add(h1);
+						activeNames.add(h1.getName());
 						return;
 					}
-
 				} catch (Exception e) {
 					continue;
 				}

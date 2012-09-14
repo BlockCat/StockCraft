@@ -27,7 +27,7 @@ public class StockCraftPermissions {
 		if (test != null) {
 			Logger log = Logger.getLogger("Minecraft");
 			permissionsEnabled = true;
-			log.log(Level.INFO, "[StockCraft] Permissions enabled.");
+			log.log(Level.INFO, "[StockCraft] Permissions enabled:" + sc.getHandler().getName());
 		} else {
 			Logger log = Logger.getLogger("Minecraft");
 			log.log(Level.SEVERE, "[StockCraft] Permissions isn't loaded, there are no restrictions.");

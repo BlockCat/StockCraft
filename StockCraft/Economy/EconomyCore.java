@@ -49,18 +49,16 @@ public class EconomyCore {
 			String name = plugin.getName();
 			if (PermissionSystems.contains(name)) {
 				int i = PermissionSystems.indexOf(name);
-				//System.out.println(handlers[i].getName());
 				try {
 					if (!activeNames.contains(handlers[i].getName())) {
-						System.out.println("[StockCraft] Economy plugin found!");
-						
-						handlers[i].newInstance().setEnabled(true);
-						active.add(handlers[i].newInstance());
-						
-						activeNames.add(handlers[i].getName());
+						EconomyHandler h1 = handlers[i].newInstance();
+						h1.setEnabled(true);
+						active.add(h1);
+						activeNames.add(h1.getName());
 						return;
 					}
 				} catch (Exception e) {
+					e.printStackTrace();
 					System.out.println("[StockCraft] Economy failed.");
 					continue;
 				}

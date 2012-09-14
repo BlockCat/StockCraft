@@ -5,30 +5,31 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import StockCraft.Economy.EconomyHandler;
+import cosine.boseconomy.BOSEconomy;
 
 public class BOSEconomyHandler extends EconomyHandler{
 
 	private boolean enabled;
-	private BOSEconomyHandler economy = null;
+	private BOSEconomy economy = null;
 
 	@Override
 	public boolean hasMoney(Player player, double money) {
-		return economy.hasMoney(player, money);
+		return getBalance(player) >= money;
 	}
 
 	@Override
 	public void subtract(Player player, double money) {
-		economy.subtract(player, money);
+		economy.setPlayerMoney(player.getName(), getBalance(player) - money, true);
 	}
 
 	@Override
 	public void add(Player player, double money) {
-		economy.add(player, money);
+		economy.setPlayerMoney(player.getName(), getBalance(player) + money, false);
 	}
 
 	@Override
 	public double getBalance(Player player) {
-		return economy.getBalance(player);
+		return economy.getPlayerMoneyDouble(player.getName());
 	}
 
 	@Override
@@ -46,7 +47,7 @@ public class BOSEconomyHandler extends EconomyHandler{
 			    if(temp == null) {
 			        economy = null;
 			    } else {
-			        economy = (BOSEconomyHandler)temp;
+			        economy = (BOSEconomy)temp;
 			        System.out.println("[StockCraft] hooked into: " + getName());
 			    }
 		}

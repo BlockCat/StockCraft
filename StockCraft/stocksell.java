@@ -51,7 +51,7 @@ public class stocksell
 							statement.execute(sql);
 							player.sendMessage(ChatColor.GREEN+amount+" "+idname+" stocks sold (shorted) -> "+price);
 							sumget = -sumget;
-							bankmoney.addmoney(player, sumget);
+							//bankmoney.addmoney(player, sumget);
 						}
 						else{
 							player.sendMessage(ChatColor.RED+"Shorten is not allowed!");
@@ -68,7 +68,7 @@ public class stocksell
 								statement.execute(sql);
 								player.sendMessage(ChatColor.GREEN+amount+" "+idname+" stocks sold (shorted) -> "+price);
 								sumget = -sumget;
-								bankmoney.addmoney(player, sumget);
+								//bankmoney.addmoney(player, sumget);
 							}
 							else if(amountof == 0 && price > bankmoney.checkmoney(player)){
 								player.sendMessage(ChatColor.RED+"Not enough money! You need "+(iamount * fcourse)+"! You have "+bankmoney.checkmoney(player)+"!");

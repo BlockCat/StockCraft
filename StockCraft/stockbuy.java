@@ -92,7 +92,8 @@ public class stockbuy
 									}			
 									statement.execute(sql);
 									//bankmoney.addmoney(player, sumget);
-									bankmoney.addmoney(player, profit * 2);
+									bankmoney.addmoney(player, profit);
+									//bankmoney.addmoney(player, profit * 2);
 									player.sendMessage(ChatColor.GREEN+amount+" "+idname+" stocks bought (shorted) -> "+sumget);
 								}
 								else
